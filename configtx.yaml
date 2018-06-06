@@ -21,210 +21,21 @@ Profiles:
     # SampleInsecureSolo defines a configuration which uses the Solo orderer,
     # contains no MSP definitions, and allows all transactions and channel
     # creation requests for the consortium SampleConsortium.
-    SampleInsecureSolo:
+    SampleOrgGenesis:
         Orderer:
             <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
         Consortiums:
             SampleConsortium:
                 Organizations:
-
-    # SampleInsecureKafka defines a configuration that differs from the
-    # SampleInsecureSolo one only in that it uses the Kafka-based orderer.
-    SampleInsecureKafka:
-        Orderer:
-            <<: *OrdererDefaults
-            OrdererType: kafka
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-
-    # SampleDevModeSolo defines a configuration which uses the Solo orderer,
-    # contains the sample MSP as both orderer and consortium member, and
-    # requires only basic membership for admin privileges. It also defines
-    # an Application on the ordering system channel, which should usually
-    # be avoided.
-    SampleDevModeSolo:
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - <<: *SampleOrg
-                      AdminPrincipal: Role.MEMBER
-
-    # SampleDevModeSoloV1.1 mimics the SampleDevModeSolo definition but
-    # additionally defines the v1.1 only capabilities which do not allow a
-    # mixed v1.0.x v1.1.x network.
-    SampleDevModeSoloV1_1:
-        Capabilities:
-            <<: *ChannelCapabilities
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-            Capabilities:
-                <<: *OrdererCapabilities
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-            Capabilities:
-                <<: *ApplicationCapabilities
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - <<: *SampleOrg
-                      AdminPrincipal: Role.MEMBER
-
-    # SampleDevModeKafka defines a configuration that differs from the
-    # SampleDevModeSolo one only in that it uses the Kafka-based orderer.
-    SampleDevModeKafka:
-        Orderer:
-            <<: *OrdererDefaults
-            OrdererType: kafka
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - <<: *SampleOrg
-                      AdminPrincipal: Role.MEMBER
-
-    # SampleDevModeKafkaV1_1 mimics the SampleDevModeKafka definition but
-    # additionally defines the v1.1 only capabilities which do not allow a
-    # mixed v1.0.x v1.1.x network.
-    SampleDevModeKafkaV1_1:
-        Capabilities:
-            <<: *ChannelCapabilities
-        Orderer:
-            <<: *OrdererDefaults
-            OrdererType: kafka
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-            Capabilities:
-                <<: *OrdererCapabilities
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:
-                - <<: *SampleOrg
-                  AdminPrincipal: Role.MEMBER
-            Capabilities:
-                <<: *ApplicationCapabilities
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - <<: *SampleOrg
-                      AdminPrincipal: Role.MEMBER
-
-    # SampleSingleMSPSolo defines a configuration which uses the Solo orderer,
-    # and contains a single MSP definition (the MSP sampleconfig).
-    # The Consortium SampleConsortium has only a single member, SampleOrg.
-    SampleSingleMSPSolo:
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - *SampleOrg
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *SampleOrg
-
-    # SampleSingleMSPKafka defines a configuration that differs from the
-    # SampleSingleMSPSolo one only in that it uses the Kafka-based orderer.
-    SampleSingleMSPKafka:
-        Orderer:
-            <<: *OrdererDefaults
-            OrdererType: kafka
-            Organizations:
-                - *SampleOrg
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *SampleOrg
-
-    # SampleSingleMSPSoloV1_1 mimics the SampleSingleMSPSolo definition but
-    # additionally defines the v1.1 only capabilities which do not allow a
-    # mixed v1.0.x v1.1.x network.
-    SampleSingleMSPSoloV1_1:
-        Capabilities:
-            <<: *ChannelCapabilities
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - *SampleOrg
-            Capabilities:
-                <<: *OrdererCapabilities
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *SampleOrg
-
-    # SampleSingleMSPKafkaV1_1 defines a configuration that differs from the
-    # SampleSingleMSPSoloV1_1 one only in that it uses the Kafka-based orderer.
-    SampleSingleMSPKafkaV1_1:
-        Capabilities:
-            <<: *ChannelCapabilities
-        Orderer:
-            <<: *OrdererDefaults
-            OrdererType: kafka
-            Organizations:
-                - *SampleOrg
-            Capabilities:
-                <<: *OrdererCapabilities
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *SampleOrg
-
-    # SampleNoConsortium is very similar to SampleInsecureSolo, except it does
-    # not define Consortiums.
-    SampleNoConsortium:
-        Orderer:
-            <<: *OrdererDefaults
-
-    # SampleEmptyInsecureChannel defines a channel with no members and
-    # therefore no access control.
-    SampleEmptyInsecureChannel:
+                    - *Org1
+    SampleOrgChannel:
         Consortium: SampleConsortium
         Application:
+            <<: *ApplicationDefaults
             Organizations:
-
-    # SampleSingleMSPChannel defines a channel with only the sample org as a
-    # member. It is designed to be used in conjunction with SampleSingleMSPSolo
-    # and SampleSingleMSPKafka orderer profiles.
-    SampleSingleMSPChannel:
-        Consortium: SampleConsortium
-        Application:
-            Organizations:
-                - *SampleOrg
-
-    # SampleSingleMSPChannelV1_1 defines a channel just as
-    # SampleSingleMSPChannel. However, it also defines the capabilities map which
-    # makes this channel incompatible with v1.0.x peers.
-    SampleSingleMSPChannelV1_1:
-        Consortium: SampleConsortium
-        Application:
-            Organizations:
-                - *SampleOrg
-            Capabilities:
-                <<: *ApplicationCapabilities
+                - *Org1
 
 ################################################################################
 #
