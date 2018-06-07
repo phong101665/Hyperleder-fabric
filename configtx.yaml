@@ -89,7 +89,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: sbhluwlse-peer0
+            - Host: hl7hviznh-peer0
               Port: 7051
 
 ################################################################################
@@ -111,7 +111,7 @@ Orderer: &OrdererDefaults
     # participation in ordering. 
     # NOTE: In the solo case, this should be a one-item list.
     Addresses:
-        - sbhluwlse-orderer0:7050
+        - hl7hviznh-orderer0:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch.
     BatchTimeout: 2s
